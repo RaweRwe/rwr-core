@@ -5,7 +5,8 @@ Config.Locale = 'tr' -- tr or en
 
 Config.Debug = false -- Yaptığı eylemleri konsola belirtsin mi?
 
-
+Config.DiscordTitle = "Discord İsmi"
+Config.Webhook = "discord webhook link"
 
 Config.DamageNeeded = 100.0 -- 100.0 being broken and 1000.0 being fixed a lower value than 100.0 will break it
 Config.MaxWidth = 5.0 -- Will complete soon
