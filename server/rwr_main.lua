@@ -58,3 +58,38 @@ Citizen.CreateThread( function()
     end
 end)
 
+-- Discord webhook
+
+RegisterServerEvent("imgToDiscord")
+AddEventHandler("imgToDiscord", function(img)
+    -- img, foto url oluyor
+  PerformHttpRequest(Config.Webhook, function(err, text, headers) end, 'POST', json.encode({username = "Rawe", content = img}), { ['Content-Type'] = 'application/json' })
+end)
+
+function discordwebhook(content)
+   local _source = source
+         local connect = {
+        {
+            ["color"] = "23295",
+            ["title"] = Config.DiscordTitle,
+            ["description"] = "Kullanıcı: "..GetPlayerName(_source).. " "  ..GetPlayerIdentifiers(_source)[1].."", content,
+            ["footer"] = {
+            ["text"] = "RaweCore V1.0.0",
+            },
+        }
+    }
+  PerformHttpRequest(Config.Webhook, function(err, text, headers) end, 'POST', json.encode({username = "RaweCore", embeds = connect}), { ['Content-Type'] = 'application/json' })
+end
+
+--- Kickleme -- event veya export olarak kullanılabilir
+
+RegisterServerEvent("rwe:siktirgitkoyunekrds")
+AddEventHandler("rwe:siktirgitkoyunekrds", function(reason)
+	DropPlayer(source, reason)	
+end)
+
+function siktirgitkoyune(reason) --- bunun çalışıp çalışmadığından emin değilim
+    DropPlayer(source, reason)
+end
+
+----

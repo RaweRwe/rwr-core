@@ -23,3 +23,8 @@ server_scripts {
     "shared/rwr_shared.lua",
     "server/rwr_main.lua",
 }
+
+exports {
+    "discordwebhook",
+    "siktirgitkoyune"
+}
