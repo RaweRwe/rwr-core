@@ -1,91 +1,121 @@
-RWR                 = {}
-RWR.ServerCallbacks = {}
+RWR      			  = {}
+
+RWR.PlayerLoaded	  = false
+RWR.PlayerData 	  = {}
+RWR.CurrentRequestId = 0
+RWR.ServerCallbacks  = {}
+
+RWR.Game   		  = {}
+RWR.Utils  		  = {}
+RWR.Streaming  	  = {}
 
 AddEventHandler('RWRCore:getSharedObject', function(cb)
 	cb(RWR)
 end)
 
+-- RegisterNetEvent("RWRCore:playerLoaded")
+-- AddEventHandler("RWRCore:playerLoaded", function()
+-- 	RWR.PlayerData["isBusy"] = false -- Kişi müsait mi, etkileşime girebilir mi? || Is player busy, is he/she can interact?
+
+-- 	Citizen.Wait(250)
+-- 	RWR.PlayerLoaded = true
+-- end)
+
+-- Citizen.CreateThread(function() -- After load
+-- 	TriggerEvent("RWRCore:playerLoaded")
+-- end)
+
 function getSharedObject()
 	return RWR
 end
 
-RWR.RegisterServerCallback = function(name, cb)
-	RWR.ServerCallbacks[name] = cb
+RWR.GetPlayerData = function()
+	return RWR.PlayerData
 end
 
-RWR.TriggerServerCallback = function(name, requestId, source, cb, ...)
-	if RWR.ServerCallbacks[name] then
-		RWR.ServerCallbacks[name](source, cb, ...)
+RWR.SetPlayerData = function(data, val)
+	RWR.PlayerData[data] = val
+end
+
+RWR.GetPlayerServerId = function()
+	return GetPlayerServerId(PlayerId())
+end
+
+RWR.TriggerServerCallback = function(name, cb, ...)
+	RWR.ServerCallbacks[RWR.CurrentRequestId] = cb
+
+	TriggerServerEvent('RWRCore:triggerServerCallback', name, RWR.CurrentRequestId, ...)
+
+	if RWR.CurrentRequestId < 65535 then
+		RWR.CurrentRequestId = RWR.CurrentRequestId + 1
 	else
-		print(('[rwr-core] "%s" callback bulunmamasına rağmen oynatıldı.'):format(name))
+		RWR.CurrentRequestId = 0
 	end
 end
 
-RegisterServerEvent('RWRCore:triggerServerCallback')
-AddEventHandler('RWRCore:triggerServerCallback', function(name, requestId, ...)
-	local playerId = source
+RWR.Streaming.LoadModel = function(hash)
+	if Config.Debug then return print(_U("RWR_R_M_HASH").. ''.. hash) end
+	model = GetHashKey(hash)
+	RequestModel(model)
+	while not HasModelLoaded(model) do
+		Wait(1)
+	end
 
-	RWR.TriggerServerCallback(name, requestId, playerId, function(...)
-		TriggerClientEvent('RWRCore:serverCallback', playerId, requestId, ...)
-	end, ...)
-end)
-
-function split(str, pat)
-    local t = {}
-    local fpat = "(.-)" .. pat
-    local last_end = 1
-    local s, e, cap = str:find(fpat, 1)
-    while s do
-       if s ~= 1 or cap ~= "" then
-          table.insert(t,cap)
-       end
-       last_end = e+1
-       s, e, cap = str:find(fpat, last_end)
-    end
-    if last_end <= #str then
-       cap = str:sub(last_end)
-       table.insert(t, cap)
-    end
-    return t
+	return model
 end
 
-Citizen.CreateThread( function()
-    Citizen.Wait(1000)
-    resourceName = GetCurrentResourceName()
-    if resourceName ~= "rwr-core" then 
-        print("\n")
-        print("^1[rwr-core] ^0Lütfen script ismini değiştirmeyiniz.\n")
-    end
-end)
-
--- Discord webhook
-
-RegisterServerEvent("imgToDiscord")
-AddEventHandler("imgToDiscord", function(img)
-    -- img, foto url oluyor
-  PerformHttpRequest(Config.Webhook, function(err, text, headers) end, 'POST', json.encode({username = "Rawe", content = img}), { ['Content-Type'] = 'application/json' })
-end)
-
-function discordwebhook(content)
-   local _source = source
-         local connect = {
-        {
-            ["color"] = "23295",
-            ["title"] = Config.DiscordTitle,
-            ["description"] = "Kullanıcı: "..GetPlayerName(_source).. " "  ..GetPlayerIdentifiers(_source)[1].."", content,
-            ["footer"] = {
-            ["text"] = Config.Version,
-            },
-        }
-    }
-  PerformHttpRequest(Config.Webhook, function(err, text, headers) end, 'POST', json.encode({username = "RaweCore", embeds = connect}), { ['Content-Type'] = 'application/json' })
+RWR.Streaming.LoadAnimDict = function(dict, cb)
+	if Config.Debug then return print(_U("RWR_R_A_DICT").. ''.. dict) end
+	while (not HasAnimDictLoaded(dict)) do
+        RequestAnimDict(dict)
+        Citizen.Wait(5)
+	end
+	
+	if cb ~= nil then
+		cb()
+	end
 end
 
---- Kickleme
+RWR.DrawText3D = function(x, y, z, text, scale) -- Font ve arkaplan değiştirildi. || Changed font and rect
+	SetTextScale(0.30, 0.30)
+	SetTextFont(0)
+	SetTextProportional(1)
+	SetTextColour(255, 255, 255, 215)
+	SetTextEntry("STRING")
+	SetTextCentre(1)
+	AddTextComponentString(text)
+	SetDrawOrigin(x,y,z, 0)
+	DrawText(0.0, 0.0)
+	local factor = (string.len(text)) / 370
+	DrawRect(0.0, 0.0+0.0125, 0.025+ factor, 0.03, 15, 16, 17, 100)
+end
 
-RegisterServerEvent("rwe:siktirgitkoyunekrds")
-AddEventHandler("rwe:siktirgitkoyunekrds", function(reason)
-	DropPlayer(source, reason)	
+RWR.DrawSubtitle = function(text, time)
+	ClearPrints()
+	BeginTextCommandPrint('STRING')
+	AddTextComponentSubstringPlayerName(text)
+	EndTextCommandPrint(time, 1)
+end
+
+RWR.Game.Teleport = function(fadeTime, x, y, z, h, cb)
+	local ply = GetPlayerServerId(PlayerId())
+	local entity = GetPlayerFromServerId(ply)
+
+	DoScreenFadeOut(fadeTime)
+	Citizen.Wait(fadeTime)
+	
+	StartPlayerTeleport(entity, x, y, z, h, false, true, false)
+	
+	Citizen.Wait(fadeTime)
+	DoScreenFadeIn(fadeTime)
+
+	if cb ~= nil then
+		cb()
+	end
+end
+
+RegisterNetEvent('RWRCore:serverCallback')
+AddEventHandler('RWRCore:serverCallback', function(requestId, ...)
+	RWR.ServerCallbacks[requestId](...)
+	RWR.ServerCallbacks[requestId] = nil
 end)
-
-----
