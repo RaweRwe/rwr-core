@@ -76,6 +76,20 @@ RWR.Streaming.LoadAnimDict = function(dict, cb)
 	end
 end
 
+RWR.Streaming.RequestAnimDict = function(animDict, cb)
+	if not HasAnimDictLoaded(animDict) then
+		RequestAnimDict(animDict)
+
+		while not HasAnimDictLoaded(animDict) do
+			Citizen.Wait(1)
+		end
+	end
+
+	if cb ~= nil then
+		cb()
+	end
+end
+
 RWR.DrawText3D = function(x, y, z, text, scale) -- Font ve arkaplan değiştirildi. || Changed font and rect
 	SetTextScale(0.30, 0.30)
 	SetTextFont(0)
@@ -119,3 +133,42 @@ AddEventHandler('RWRCore:serverCallback', function(requestId, ...)
 	RWR.ServerCallbacks[requestId](...)
 	RWR.ServerCallbacks[requestId] = nil
 end)
+
+
+RWR.GetClosestVehicle = function(coords)
+	local vehicles        = QBCore.Functions.GetVehicles()
+	local closestDistance = -1
+	local closestVehicle  = -1
+	local coords          = coords
+
+	if coords == nil then
+		local playerPed = PlayerPedId()
+		coords = GetEntityCoords(playerPed)
+	end
+	for i=1, #vehicles, 1 do
+		local vehicleCoords = GetEntityCoords(vehicles[i])
+		local distance      = GetDistanceBetweenCoords(vehicleCoords, coords.x, coords.y, coords.z, true)
+
+		if closestDistance == -1 or closestDistance > distance then
+			closestVehicle  = vehicles[i]
+			closestDistance = distance
+		end
+	end
+	return closestVehicle
+end
+
+RWR.DeleteVehicle = function(vehicle)
+    SetEntityAsMissionEntity(vehicle, true, true)
+    DeleteVehicle(vehicle)
+end
+
+RWR.KoordinatiCek = function(entity)
+    local coords = GetEntityCoords(entity, false)
+    local heading = GetEntityHeading(entity)
+    return {
+        x = coords.x,
+        y = coords.y,
+        z = coords.z,
+        a = heading
+    }
+end
