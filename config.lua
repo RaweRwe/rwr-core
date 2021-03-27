@@ -1,6 +1,6 @@
 Config = {}
 
-Config.Version = "1.0.2"
+Config.Version = "1.0.3"
 Config.Locale = 'tr' -- tr or en
 
 Config.Debug = false -- Yaptığı eylemleri konsola belirtsin mi?
@@ -15,10 +15,10 @@ Config.MaxLength = 5.0
 
 Blips = {
     ["blip1"] = {
-        title="Laot 1", colour=5, scale = 0.8, id=446, x = -347.291, y = -133.370, z = 38.009
+        title="Örnek Blip", colour=5, scale = 0.8, id=446, x = -347.291, y = -133.370, z = 38.009
     },
     ["blip2"] = {
-        title="Laot 2", colour=3, scale = 0.8, id=446, x = -204.4, y = -1306.58, z = 31.31
+        title="Örnek Blip", colour=3, scale = 0.8, id=446, x = -204.4, y = -1306.58, z = 31.31
     },
 }
 

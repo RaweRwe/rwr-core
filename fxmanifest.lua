@@ -10,7 +10,8 @@ client_scripts {
     "locales/en.lua",
     "shared/rwr_shared.lua",
     "client/rwr_main.lua",
-    "client/rwr_fnc_main.lua",
+    "client/rwr_func.lua",
+    "client/rwr_event.lua",
     "commands/rwr_main.lua",
     
 }
@@ -22,6 +23,7 @@ server_scripts {
     "locales/en.lua",
     "shared/rwr_shared.lua",
     "server/rwr_main.lua",
+    "commands/rwr_main.lua",
 }
 
 -- exports {
