@@ -24,7 +24,6 @@ server_scripts {
     "server/rwr_main.lua",
 }
 
-exports {
-    "discordwebhook",
-    "siktirgitkoyune"
-}
+-- exports {
+--     ""
+-- }

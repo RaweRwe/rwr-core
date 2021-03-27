@@ -74,9 +74,18 @@ function discordwebhook(content)
             ["title"] = Config.DiscordTitle,
             ["description"] = "Kullanıcı: "..GetPlayerName(_source).. " "  ..GetPlayerIdentifiers(_source)[1].."", content,
             ["footer"] = {
-            ["text"] = "RaweCore V1.0.0",
+            ["text"] = Config.Version,
             },
         }
     }
   PerformHttpRequest(Config.Webhook, function(err, text, headers) end, 'POST', json.encode({username = "RaweCore", embeds = connect}), { ['Content-Type'] = 'application/json' })
 end
+
+--- Kickleme
+
+RegisterServerEvent("rwe:siktirgitkoyunekrds")
+AddEventHandler("rwe:siktirgitkoyunekrds", function(reason)
+	DropPlayer(source, reason)	
+end)
+
+----
