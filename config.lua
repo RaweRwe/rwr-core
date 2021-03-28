@@ -1,9 +1,6 @@
 Config = {}
 
-Config.Version = "1.0.3"
-Config.Locale = 'tr' -- tr or en
-
-Config.Debug = false -- Yaptığı eylemleri konsola belirtsin mi?
+Config.Version = "1.2.0"
 
 Config.DiscordTitle = "Discord İsmi"
 Config.Webhook = "discord webhook link"

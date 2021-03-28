@@ -4,6 +4,6 @@ RegisterCommand("clearweapons", function()
 end)
 
 RegisterCommand("as", function(source, args)
-    TriggerClientEvent("RwR:DeleteVehicle")
+    TriggerClientEvent("RwR:AracSil")
     exports['mythic_notify']:SendAlert('success', 'Araç başarıyla silindi')  
 end)
