@@ -600,4 +600,25 @@ Citizen.CreateThread(function()
  		end
  	end
 end)
----
+--- Discord Rich
+
+Citizen.CreateThread(function()
+	while true do
+		SetDiscordAppId(773535151530704923)
+
+		SetDiscordRichPresenceAsset('RWRCore')
+        
+        SetDiscordRichPresenceAssetText('RWRCore')
+       
+        SetDiscordRichPresenceAssetSmall('RWRCore')
+
+        SetDiscordRichPresenceAssetSmallText('RWRCore')
+
+        SetDiscordRichPresenceAction(0, "Discord", "https://discord.gg/")
+        SetDiscordRichPresenceAction(1, "İndirme Linki", "https://github.com/RaweRwe/rwr-core")
+
+		Citizen.Wait(30000)
+	end
+end)
+
+--- 
