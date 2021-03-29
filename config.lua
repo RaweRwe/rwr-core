@@ -1,6 +1,6 @@
 Config = {}
 
-Config.Version = "1.2.2"
+Config.Version = "1.2.3"
 
 Config.DiscordTitle = "Discord İsmi"
 Config.Webhook = "discord webhook link"
