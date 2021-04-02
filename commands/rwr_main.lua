@@ -7,3 +7,9 @@ RegisterCommand("as", function(source, args)
     TriggerClientEvent("RwR:AracSil")
     exports['mythic_notify']:SendAlert('success', 'Araç başarıyla silindi')  
 end)
+
+RegisterCommand("yenile", function(source, args, raw)
+
+    ClearPedTasksImmediately(GetPlayerPed(-1))
+
+end, false)
