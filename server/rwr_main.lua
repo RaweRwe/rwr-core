@@ -37,5 +37,3 @@ RegisterServerEvent("rwe:siktirgitkoyunekrds")
 AddEventHandler("rwe:siktirgitkoyunekrds", function(reason)
 	DropPlayer(source, reason)	
 end)
-
-----

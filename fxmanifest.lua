@@ -5,17 +5,14 @@ author "rawe"
 
 client_scripts {
     "config.lua",
-    "client/rwr_main.lua",
-    "client/rwr_func.lua",
-    "client/rwr_event.lua",
-    "client/rwr_enumarate.lua",
+    "client/rwr_*.lua",
     "commands/rwr_main.lua",
     
 }
 
 server_scripts {
     "config.lua",
-    "server/rwr_main.lua",
+    "server/rwr_*.lua",
     "commands/rwr_main.lua",
 }
 
