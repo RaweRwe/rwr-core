@@ -12,7 +12,6 @@ end
 
 RegisterServerEvent("imgToDiscord")
 AddEventHandler("imgToDiscord", function(img)
-    -- img, foto url oluyor
   PerformHttpRequest(Config.Webhook, function(err, text, headers) end, 'POST', json.encode({username = "Rawe", content = img}), { ['Content-Type'] = 'application/json' })
 end)
 
@@ -31,7 +30,7 @@ function discordwebhook(content)
   PerformHttpRequest(Config.Webhook, function(err, text, headers) end, 'POST', json.encode({username = "RaweCore", embeds = connect}), { ['Content-Type'] = 'application/json' })
 end
 
---- Kickleme
+--- Kick
 
 RegisterServerEvent("rwe:siktirgitkoyunekrds")
 AddEventHandler("rwe:siktirgitkoyunekrds", function(reason)
