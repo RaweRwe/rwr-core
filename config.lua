@@ -19,6 +19,8 @@ Blips = {
     },
 }
 
+Config.NoGuns = true -- false yaparsanız çalışmaz
+Config.NoDrops = true  -- false yaparsanız çalışmaz
 Config.Pedsayisi = 0.0 -- max 1.0
 Config.Pedsenaryo = 0.0 -- max 1.0
 Config.Pedsenaryo1 = 0.0 -- max 1.0

@@ -81,6 +81,30 @@ Citizen.CreateThread(function()
     end
 end)
 
+-- NPCLERİN SİLAHLARINI SİLER
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(1)
+		
+        for ped in EnumeratePeds() do
+            if DoesEntityExist(ped) then
+				if Config.NoGuns == true then
+					if (GetEntityModel(ped) == GetHashKey(model)) then
+						RemoveAllPedWeapons(ped, true)
+					end
+				end
+				if Config.NoDrops == true then
+					if (GetEntityModel(ped) == GetHashKey(model)) then
+						SetPedDropsWeaponsWhenDead(ped,false) 
+					end
+				end
+			end
+		end
+    end
+end)
+
+
 -- NPCLERDEN YERE DUSEN SILAHLARI SILER
 Citizen.CreateThread(function()
     while true do
