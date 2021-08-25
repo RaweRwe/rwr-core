@@ -16,6 +16,12 @@ server_scripts {
     "commands/rwr_main.lua",
 }
 
--- exports {
---     ""
--- }
+ui_page {
+    'html/index.html'
+}
+
+files {
+	'html/index.html',
+	'html/main.js', 
+	'html/style.css'
+}

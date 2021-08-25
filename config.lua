@@ -1,9 +1,9 @@
 Config = {}
 
-Config.Version = "1.2.3"
+Config.Version = "1.3"
 
 Config.DiscordTitle = "Discord İsmi"
-Config.Webhook = "discord webhook link"
+Config.Webhook = "webhook"
 
 Config.DamageNeeded = 100.0 -- 100.0 being broken and 1000.0 being fixed a lower value than 100.0 will break it
 Config.MaxWidth = 5.0 -- Will complete soon
@@ -19,13 +19,15 @@ Blips = {
     },
 }
 
-Config.NoGuns = true -- false yaparsanız çalışmaz
-Config.NoDrops = true  -- false yaparsanız çalışmaz
-Config.Pedsayisi = 0.0 -- max 1.0
-Config.Pedsenaryo = 0.0 -- max 1.0
-Config.Pedsenaryo1 = 0.0 -- max 1.0
 
-Config.Trafficcoklugu = 0.0 -- Trafik yoğunlu max 1.0
-Config.CopKamyonlari = false -- Rastgele ortaya çıkan çöp kamyonları [true/false]
-Config.RandomTekne = false -- Rastgele denizde/suda tekne çıkması [true/false]
-Config.RandomPolis = false -- Rastgele polisler (araç/yaya)[true/false]
+-- NPC Settings
+Config.NoGuns = true -- [true/false]
+Config.NoDrops = true  -- [true/false]
+Config.PedDensity = 0.0 -- max 1.0
+Config.PedScenario = 0.0 -- max 1.0
+Config.PedScenario1 = 0.0 -- max 1.0
+
+Config.TrafficDensity = 0.0 -- max 1.0
+Config.GarbageTruck = false -- [true/false]
+Config.RandomBoats = false -- [true/false]
+Config.RandomPolice = false -- [true/false]

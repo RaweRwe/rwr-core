@@ -1,0 +1,47 @@
+#notification { 
+    position:absolute;
+    padding-left: 85%;
+    padding-top: 10%;
+    max-width:35%;
+    transform: translateY(-50%);
+}
+
+#notification-box {
+    width:100%;
+    border-radius:10px;
+    background: var(--color);
+    
+}
+
+#text {
+    font-family: 'Roboto', sans-serif;
+    font-size:14px;
+    text-align:center;
+    padding:12px;
+    color: var(color);
+}
+
+
+#interaction-menu { 
+    position:absolute;
+    padding-left: 2%;
+    padding-top: 60%;
+    max-width:35%;
+    transform: translateY(-50%);
+}
+
+#interaction-box {
+    width:100%;
+    border-radius:10px;
+    border-left: 6px solid var(--color);
+    background-color: rgb(0, 0, 0);
+    
+}
+
+#interaction-text {
+    font-family: 'Roboto', sans-serif;
+    font-size:20px;
+    text-align:center;
+    padding:12px;
+    color: var(color);
+}

@@ -19,7 +19,7 @@ local Keys = {
   ["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
 }
 
--- OYUN ICERISINCE NPCLER YOKKEN CIKAN ORTAM SESLERINI KAPATIR
+-- Ortam Seslerini Kapatır / Disable the Ambient Sounds
 
 CreateThread(function()   
     StartAudioScene("CHARACTER_CHANGE_IN_SKY_SCENE");
@@ -27,7 +27,7 @@ CreateThread(function()
 end)
 
 
--- POLIS ARACLARININ SILAH VERMESINI ENGELLER
+-- Polis araçlarının silah vermesini kapatır / 
 
 Citizen.CreateThread(function()
     while true do
@@ -37,7 +37,7 @@ Citizen.CreateThread(function()
     end
 end)
 
--- CROSSHAIR SILER
+-- CROSSHAIR Siler / Remove crosshair
 Citizen.CreateThread(function()
 	local isSniper = false
 	while true do
@@ -61,7 +61,7 @@ Citizen.Wait(0)
 	end
 end)
 
--- MINI MAP ARAC DISI KAPANMA
+-- Araç Dışı Minimap Kapatır / Disable minimap
 
 Citizen.CreateThread(function()
     Citizen.Wait(10000)
@@ -81,7 +81,7 @@ Citizen.CreateThread(function()
     end
 end)
 
--- NPCLERİN SİLAHLARINI SİLER
+-- NPC'lerin silahlarını siler / Remove NPC weapons
 
 Citizen.CreateThread(function()
     while true do
@@ -104,8 +104,7 @@ Citizen.CreateThread(function()
     end
 end)
 
-
--- NPCLERDEN YERE DUSEN SILAHLARI SILER
+-- NPCLERDEN YERE DUSEN SILAHLARI SILER / Remove NPC Gun Drops
 Citizen.CreateThread(function()
     while true do
       Citizen.Wait(10000)
@@ -130,12 +129,10 @@ function AddTextEntry(key, value)
 end
 
 Citizen.CreateThread(function()
-  AddTextEntry('FE_THDR_GTAO', '~p~RAWE ~w~Core~y~/')
+  AddTextEntry('FE_THDR_GTAO', '~p~RWR ~w~Core~y~/')
 end)
 
-
 -- ACIL SERVISLERI KAPATIR
-
 Citizen.CreateThread(function()
 	while true do
 		Wait(1)
@@ -148,20 +145,17 @@ Citizen.CreateThread(function()
 	end
 end)
 
--- PD SILER 
-
+-- PD SILER / Remove PD
 Citizen.CreateThread(function()
     while true do
-    Citizen.Wait(100)
-    local playerPed = GetPlayerPed(-1)
-    local playerLocalisation = GetEntityCoords(playerPed)
-    ClearAreaOfCops(playerLocalisation.x, playerLocalisation.y, playerLocalisation.z, 400.0)
+        Citizen.Wait(100)
+        local playerPed = GetPlayerPed(-1)
+        local playerLocalisation = GetEntityCoords(playerPed)
+            ClearAreaOfCops(playerLocalisation.x, playerLocalisation.y, playerLocalisation.z, 400.0)
     end
-    end)
+end)
 
-
--- CTRL ÇÖMELME
-
+-- [CTRL] Çömelme / Crouch
 local crouched = false
 
 Citizen.CreateThread( function()
@@ -194,9 +188,7 @@ Citizen.CreateThread( function()
     end
 end)
 
-
--- 'B' PARMAKLA GÖSTER
-
+-- [B] Parmakla Gösterme / Pointing
 local mp_pointing = false
 local keyPressed = false
 
@@ -305,9 +297,7 @@ Citizen.CreateThread(function()
     end
 end)
 
-
--- ARAC ITEKLEME
-
+-- Araç İtekleme / Push the vehicle
 local First = vector3(0.0, 0.0, 0.0)
 local Second = vector3(5.0, 5.0, 5.0)
 
@@ -316,7 +306,7 @@ Citizen.CreateThread(function()
     Citizen.Wait(2000)
     while true do
         local ped = PlayerPedId()
-        local closestVehicle, Distance = RWR.GetClosestVehicle()
+        local closestVehicle, Distance = RWR.Functions.GetClosestVehicle()
         local vehicleCoords = GetEntityCoords(closestVehicle)
         local dimension = GetModelDimensions(GetEntityModel(closestVehicle), First, Second)
         if Distance < 6.0  and not IsPedInAnyVehicle(ped, false) then
@@ -343,7 +333,7 @@ Citizen.CreateThread(function()
         if Vehicle.Vehicle ~= nil then
  
                 if IsVehicleSeatFree(Vehicle.Vehicle, -1) and GetVehicleEngineHealth(Vehicle.Vehicle) <= Config.DamageNeeded then
-                    RWR.DrawText3D({x = Vehicle.Coords.x, y = Vehicle.Coords.y, z = Vehicle.Coords.z}, 'Press [~g~SHIFT~w~] and [~g~E~w~] to push the vehicle', 0.4)
+                    -- RWR.DrawText3D({x = Vehicle.Coords.x, y = Vehicle.Coords.y, z = Vehicle.Coords.z}, 'Press [~g~SHIFT~w~] and [~g~E~w~] to push the vehicle', 0.4)
                 end
      
 
@@ -393,8 +383,7 @@ Citizen.CreateThread(function()
     end
 end)
 
--- NPC ARACLARI KITLER
-
+-- NPC Araçlarını Kitler / Lock NPC Vehicles
 Citizen.CreateThread(function()
     while true do
         Wait(0)
@@ -413,8 +402,7 @@ Citizen.CreateThread(function()
     end
  end)
 
--- Basit Blip Oluşturma -- Cfg'den editleyebilirsiniz
-
+-- Basit Blip Oluşturma / Creating a Simple Blip // CFG
 Citizen.CreateThread(function()
     for _, info in pairs(Blips) do
       info.blip = AddBlipForCoord(info.x, info.y, info.z)
@@ -429,28 +417,26 @@ Citizen.CreateThread(function()
     end
 end)
 
--- Trafik + araç + ped çokluğu
-
+-- NPC Settings / Npc Ayarları
 Citizen.CreateThread(function()
     while true do
         Citizen.Await(0)
-        SetVehicleDensityMultiplierThisFrame(Config.Trafficcoklugu) -- Trafik yoğunlu
-        SetRandomVehicleDensityMultiplierThisFrame(Config.Randomarac) -- Rastgele araçlar (otoparktan araç çıkması vs)
+        SetVehicleDensityMultiplierThisFrame(Config.TrafficDensity) -- Trafik yoğunlu / Traffic Density
+        SetRandomVehicleDensityMultiplierThisFrame(Config.RandomVehicle) -- Rastgele araçlar (otoparktan araç çıkması vs) / Random Vehicles
 
-        SetPedDensityMultiplierThisFrame(Config.Pedsayisi) -- Ped Yoğunluğu ve sayısı
-        SetScenarioPedDensityMultiplierThisFrame(Config.Pedsenaryo, Config.Pedsenaryo1)  -- Rastgele NPC/PEDS senaryoları 0
+        SetPedDensityMultiplierThisFrame(Config.PedDensity) -- Ped Yoğunluğu / Ped Density
+        SetScenarioPedDensityMultiplierThisFrame(Config.PedScenario, Config.PedScenario1)  -- Rastgele NPC/PEDS senaryoları -- Random NPC/PEDS Scenario
         
-        SetGarbageTrucks(Config.CopKamyonlari) -- Rastgele ortaya çıkan çöp kamyonları [true/false]
-        SetRandomBoats(Config.RandomTekne) -- Rastgele denizde/suda tekne çıkması [true/false]
-        SetCreateRandomCops(Config.RandomPolis) -- Rastgele polisler (araç/yaya)[true/false]
-        SetCreateRandomCopsNotOnScenarios(Config.RandomPolis) -- Rastgele polisler (senaryo değil)[true/false]
-        SetCreateRandomCopsOnScenarios(Config.RandomPolis) -- Rastgele polisler (senaryo)[true/false]
+        SetGarbageTrucks(Config.GarbageTruck) -- Rastgele ortaya çıkan çöp kamyonları [true/false] / Random Garbage Truck
+        SetRandomBoats(Config.RandomBoats) -- Rastgele denizde/suda tekne çıkması [true/false] / Random Boats
+        SetCreateRandomCops(Config.RandomPolice) -- Rastgele polisler (araç/yaya)[true/false] / Random Police
+        SetCreateRandomCopsNotOnScenarios(Config.RandomPolice) -- Rastgele polisler (senaryo değil)[true/false] / Random Police Not on Scenarios
+        SetCreateRandomCopsOnScenarios(Config.RandomPolice) -- Rastgele polisler (senaryo)[true/false] / Random Police Scenario
 
     end
 end)
 
---  Silah Hasarları
-
+--  Silah Hasarları / Weapon Damages
 Citizen.CreateThread(function()
     while true do
 	    N_0x4757f00bc6323cfe(GetHashKey("WEAPON_UNARMED"), 0.5)
@@ -496,8 +482,7 @@ Citizen.CreateThread(function()
     end
 end)
 
--- Silah Sekmeleri
-
+-- Silah Sekmeleri / Weapon Recoils
 local recoils = {
 	[416676503] = 0.34,
 	[-957766203] = 0.22,
@@ -523,12 +508,6 @@ Citizen.CreateThread(function()
         if IsPedShooting(ply) then      
             local _,wep = GetCurrentPedWeapon(ply)
             local _,cAmmo = GetAmmoInClip(ply, wep)
-			
-		--	if hasar[wep] and hasar[wep] ~= 0 then
-              --  yenihasar = ((hasar[wep]/100)*25)/10
-               -- print(yenihasar)
-			--	N_0x4757f00bc6323cfe(wep, yenihasar)
-			--end
 			
             local GamePlayCam = GetFollowPedCamViewMode()
             local Vehicled = IsPedInAnyVehicle(ply, false)
@@ -601,8 +580,7 @@ Citizen.CreateThread(function()
 	end
 end)
 
--- Bayılmak Z tuşu
-
+-- [Z] Bayılmak / Ragdolling
 Citizen.CreateThread(function()
 
 	local isRagdolling = 0
@@ -616,14 +594,13 @@ Citizen.CreateThread(function()
  		if isRagdolling == 1 then
 			SetPedToRagdoll(GetPlayerPed(-1), 1000, 1000, 0, 0, 0, 0)
 			SetTextComponentFormat("STRING")
-			AddTextComponentString('Ayağa kalkmak için ~INPUT_MULTIPLAYER_INFO~ bas')
+			AddTextComponentString('Ayağa kalkmak için ~INPUT_MULTIPLAYER_INFO~ basın') -- Press ~INPUT_MULTIPLAYER_INFO~ for get up
 			DisplayHelpTextFromStringLabel(0, 1, 1, -1)
  		end
  	end
 end)
 
 --- Discord Rich
-
 Citizen.CreateThread(function()
 	while true do
 		SetDiscordAppId(BotAppID)
@@ -637,7 +614,7 @@ Citizen.CreateThread(function()
         SetDiscordRichPresenceAssetSmallText('RWRCore')
 
         SetDiscordRichPresenceAction(0, "Discord", "https://discord.gg/")
-        SetDiscordRichPresenceAction(1, "İndirme Linki", "https://github.com/RaweRwe/rwr-core")
+        SetDiscordRichPresenceAction(1, "Download", "https://github.com/RaweRwe/rwr-core")
 
 		Citizen.Wait(30000)
 	end

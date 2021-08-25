@@ -1,5 +1,6 @@
 RWR = {}
 RWR.Streaming = {}
+RWR.Functions = {}
 
 AddEventHandler('RWRCore:getSharedObject', function(cb)
 	cb(RWR)
@@ -25,7 +26,7 @@ end
 
 ---- Some Basic Code
 
-RWR.GetVehicles = function()
+RWR.Functions.GetVehicles = function()
 	local vehicles = {}
 
 	for vehicle in EnumerateVehicles() do
@@ -35,8 +36,8 @@ RWR.GetVehicles = function()
 	return vehicles
 end
 
-RWR.EnYakinAraciAl = function(coords)
-	local vehicles        = RWR.GetVehicles()
+RWR.Functions.GetClosestVehicle = function(coords)
+	local vehicles        = RWR.Functions.GetVehicles()
 	local closestDistance = -1
 	local closestVehicle  = -1
 	local coords          = coords
@@ -57,12 +58,12 @@ RWR.EnYakinAraciAl = function(coords)
 	return closestVehicle
 end
 
-RWR.AracSil = function(vehicle)
+RWR.Functions.DeleteVehicle = function(vehicle)
     SetEntityAsMissionEntity(vehicle, true, true)
     DeleteVehicle(vehicle)
 end
 
-RWR.KoordinatiCek = function(entity)
+RWR.Functions.GetCoords = function(entity)
     local coords = GetEntityCoords(entity, false)
     local heading = GetEntityHeading(entity)
     return {
@@ -73,18 +74,71 @@ RWR.KoordinatiCek = function(entity)
     }
 end
 
-RWR.3DText = function(x,y,z, text)
-	local onScreen,_x,_y = World3dToScreen2d(x,y,z)
-	local px,py,pz = table.unpack(GetGameplayCamCoords())
-
-	SetTextFont(4)
-	SetTextProportional(1)
+RWR.Functions.DrawText3D = function(x, y, z, text)
 	SetTextScale(0.35, 0.35)
-	SetTextEntry("STRING")
-	SetTextCentre(1)
-	AddTextComponentString(text)
-	DrawText(_x,_y)
-	local factor = (string.len(text)) / 370
-	DrawRect(_x,_y+0.0125, 0.015+ factor, 0.03, 41, 11, 41, 80)
-	SetTextColour(255, 255, 255, 215)
+    SetTextFont(4)
+    SetTextProportional(1)
+    SetTextColour(255, 255, 255, 215)
+    SetTextEntry("STRING")
+    SetTextCentre(true)
+    AddTextComponentString(text)
+    SetDrawOrigin(x,y,z, 0)
+    DrawText(0.0, 0.0)
+    local factor = (string.len(text)) / 370
+    DrawRect(0.0, 0.0+0.0125, 0.017+ factor, 0.03, 0, 0, 0, 75)
+    ClearDrawOrigin()
 end
+
+-- Bildirim / Notify
+
+RegisterNetEvent('RWR:ShowNotification')
+AddEventHandler('RWR:ShowNotification', function(text, color, textcolor, time)
+    SendNUIMessage({
+        shown = true,
+        text = text,
+        color = color,
+        textcolor = textcolor, 
+    })
+    Citizen.Wait(time * 1000)
+    HideNotify()
+end)
+
+function ShowNotify(text, color, textcolor, time)
+    SendNUIMessage({
+        shown = true,
+        text = text,
+        color = color,
+        textcolor = textcolor, 
+    })
+    Citizen.Wait(time * 1000)
+    HideNotify()
+end
+
+exports('ShowNotify', ShowNotify)
+
+function HideNotify()
+    SendNUIMessage({
+        close_notify = true
+    })
+end
+
+-- Interection
+
+function ShowInteraction(text, color, textcolor)
+    SendNUIMessage({
+        showi = true,
+        text = text,
+        color = color,
+        textcolor = textcolor, 
+    })
+end
+
+exports('ShowInteraction', ShowInteraction)
+
+function HideInteraction()
+    SendNUIMessage({
+        close_interaction = true
+    })
+end
+
+exports('HideInteraction', HideInteraction)
