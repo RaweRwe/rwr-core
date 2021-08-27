@@ -6,7 +6,7 @@ Fivem için özel bir framework.
 İçinde kolaylık sunan ve gereksiz script olarak kullanılan kodlar bulunmaktadır (parmakla gösterme , taşıma, crosshair silme vb.). Infinity'e yardımcı kodlar bulunmaktadır.
 
 
-# Örnek Export Kullanımı / Example Export Using
+# Örnek Export Kullanımı / Example Export Use
 
 Client side:
 
