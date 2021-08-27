@@ -1,10 +1,10 @@
 RWR = nil
 
 Citizen.CreateThread(function()
-  while RWR == nil do
-    TriggerEvent('RWRCore:getSharedObject', function(obj) RWR = obj end)
-    Citizen.Wait(1000)
-  end
+    while RWR == nil do
+        TriggerEvent('RWRCore:getSharedObject', function(obj) RWR = obj end)
+        Citizen.Wait(1000)
+    end
 end)
 
 local Keys = {
@@ -115,6 +115,7 @@ Citizen.CreateThread(function()
 end)
   
 -- PVP 
+if Config.PvP then
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
@@ -122,6 +123,7 @@ Citizen.CreateThread(function()
 		NetworkSetFriendlyFireOption(true)
 	end
 end)
+end
 
 -- PAUSE MENU NAME
 function AddTextEntry(key, value)
@@ -133,6 +135,7 @@ Citizen.CreateThread(function()
 end)
 
 -- ACIL SERVISLERI KAPATIR
+if Config.NoWanted then
 Citizen.CreateThread(function()
 	while true do
 		Wait(1)
@@ -144,7 +147,7 @@ Citizen.CreateThread(function()
 		SetPlayerWantedLevelNoDrop(PlayerId(), 0, false)
 	end
 end)
-
+end
 -- PD SILER / Remove PD
 Citizen.CreateThread(function()
     while true do

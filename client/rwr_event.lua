@@ -1,9 +1,9 @@
-RegisterNetEvent('RWRCore:AracSil')
-AddEventHandler('RWRCore:AracSil', function()
+RegisterNetEvent('RWRCore:DeleteVehicle')
+AddEventHandler('RWRCore:DeleteVehicle', function()
 	if IsPedInAnyVehicle(GetPlayerPed(-1)) then
-		RWR.AracSil(GetVehiclePedIsIn(GetPlayerPed(-1), false))
+		RWR.Functions.DeleteVehicle(GetVehiclePedIsIn(GetPlayerPed(-1), false))
 	else
 		local vehicle = GetClosestVehicle()
-		RWR.AracSil(vehicle)
+		RWR.Functions.DeleteVehicle(vehicle)
 	end
 end)
