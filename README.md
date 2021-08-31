@@ -5,6 +5,8 @@ This is has basic function and some infinity code. (np-infinity and other one)
 Fivem için özel bir framework.
 İçinde kolaylık sunan ve gereksiz script olarak kullanılan kodlar bulunmaktadır (parmakla gösterme , taşıma, crosshair silme vb.). Infinity'e yardımcı kodlar bulunmaktadır.
 
+# Discord
++ My discord server: https://discord.gg/BW5KA78SXW
 
 # Örnek Export Kullanımı / Example Export Use
 
